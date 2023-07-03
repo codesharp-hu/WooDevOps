@@ -1,0 +1,59 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/favicon.ico"><title>I Fix Your Bug</title><link href="/assets/css/bootstrap.min.css" rel="stylesheet"><link href="/assets/css/nucleo-icons.css" rel="stylesheet"/><link id="pagestyle" href="/assets/css/now-design-system-pro.css" rel="stylesheet"/><meta name="description" content="ASP.NET Core and Vue.js bug fixing service. For when you need a second pair of eyes."><meta property="og:url" content="https://ifixyourbug.com/"><meta property="og:title" content="I Fix Your Bug - For a Fixed Price"><meta property="og:description" content="ASP.NET Core and Vue.js bug fixing service. For when you need a second pair of eyes."><meta property="og:image" content="https://ifixyourbug.com/social_preview.png"><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="I Fix Your Bug - For a Fixed Price"><meta name="twitter:description" content="ASP.NET Core and Vue.js bug fixing service. For when you need a second pair of eyes."><meta name="twitter:image" content="https://ifixyourbug.com/social_preview.png"><link rel="preload" as="image" href="/hero.webp" media="(min-width:768px)"/><style>@font-face {
+        font-family: 'Montserrat';
+        font-style: normal;
+        font-weight: 400;
+        src: url("/assets/fonts/Montserrat.woff2") format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Font Awesome 5 Brands";
+        font-style: normal;
+        font-weight: normal;
+        font-display: swap;
+        src: url("/assets/webfonts/fa-brands-400.eot");
+        src: url("/assets/webfonts/fa-brands-400.woff2") format("woff2");
+        src: url("/assets/webfonts/fa-brands-400.woff") format("woff");
+      }
+      .fab {
+        font-family:"Font Awesome 5 Brands";
+        color: #000;
+      }
+      .fa-github:before {
+        content: "\f09b";
+      }
+      .fa-stack-overflow:before {
+        content: "\f16c";
+      }
+      .fa-ubuntu:before {
+        content: "\f7df";
+        font-size: 2rem;
+        color: rgb(215, 72, 34);
+      }
+      .fa-microsoft:before {
+        content: "\f3ca";
+        font-size: 2rem;
+        color: rgb(19, 157, 235);
+      }
+      .fa-linux:before {
+        content: "\f17c";
+        font-size: 2rem;
+      }
+      .fa-vuejs:before {
+        content: "\f41f";
+        font-size: 2rem;
+        color: rgb(62, 168, 117);
+      }
+      .fa-aws:before {
+        content: "\f375";
+        font-size: 2rem;
+        color: rgb(232, 134, 38);
+      }
+      .fa-chrome:before {
+        content: "\f268";
+        font-size: 2rem;
+      }
+      .fa-centos:before {
+        content: "\f789";
+        font-size: 2rem;
+      }</style><script defer="defer" src="/js/chunk-vendors.js"></script><script defer="defer" src="/js/app.js"></script><link href="/css/app.css" rel="stylesheet"></head><body class="bg-gray-200"><noscript><strong>We're sorry but I Fix Your Bug doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><div id="app"></div></body></html>
