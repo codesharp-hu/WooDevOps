@@ -4,6 +4,7 @@ const watch = Vue.watch;
 const app = Vue.createApp({
   template: ` 
   <button @click="runBashScript">Run</button>
+  <button @click="getState">Get state</button>
   <p>{{ state }}</p>
   `,
   name: 'App',
@@ -11,7 +12,19 @@ const app = Vue.createApp({
     const state = ref(""); 
     async function runBashScript() {
       const resp = await fetchPost(`api/start`);
-      state.value = await resp.text();
+      state.value = await resp.json();
+    }
+
+    async function getState() {
+      const resp = await fetchGet(`api/state`);
+      state.value = await resp.json();
+    }
+
+    async function fetchGet(route) {
+      let response = await fetch(route, {
+        method: 'GET',
+      })
+      return response;
     }
 
     async function fetchPost(route, body) {
@@ -25,7 +38,7 @@ const app = Vue.createApp({
       return response;
     }
 
-    return { runBashScript, state }
+    return { runBashScript, getState, state }
   },
 });
 

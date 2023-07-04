@@ -14,6 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 //builder.Services.AddSingleton<BashScriptBackgroundService>();
 builder.Services.AddSingleton<Channel<ScriptTask>>(Channel.CreateUnbounded<ScriptTask>());
+builder.Services.AddSingleton<Channel<ScriptState>>(Channel.CreateUnbounded<ScriptState>());
 builder.Services.AddHostedService<BashScriptBackgroundService>();
 
 builder.Services.AddCors(options =>
