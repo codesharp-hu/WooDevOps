@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.SignalR;
 
 namespace BashScriptRunner;
 public class BashScriptBackgroundService : BackgroundService
@@ -12,11 +13,13 @@ public class BashScriptBackgroundService : BackgroundService
 
     private Channel<ScriptTask> Channel { get; }
     private Channel<ScriptState> ScriptStateChannel { get; set; }
+    private IHubContext<ScriptStateHub> HubContext { get; }
 
-    public BashScriptBackgroundService(Channel<ScriptTask> channel, Channel<ScriptState> scriptStateChannel)
+    public BashScriptBackgroundService(Channel<ScriptTask> channel, Channel<ScriptState> scriptStateChannel, IHubContext<ScriptStateHub> hubContext)
     {
         Channel = channel;
         ScriptStateChannel = scriptStateChannel;
+        HubContext = hubContext;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -35,13 +38,14 @@ public class BashScriptBackgroundService : BackgroundService
                 CreateNoWindow = true
             };
 
-            process.OutputDataReceived += (sender, e) =>
+            process.OutputDataReceived += async (sender, e) =>
             {
                 if (e.Data != null)
                 {
-                    Console.WriteLine($"Output: {e.Data}");
+                    await HubContext.Clients.All.SendAsync("outputReceived", e.Data);
                     scriptState.Output.Add(e.Data);
                     ScriptStateChannel.Writer.TryWrite(scriptState);
+                    Console.WriteLine($"Output: {e.Data}");
                 }
             };
 

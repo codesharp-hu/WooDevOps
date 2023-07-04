@@ -16,6 +16,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<Channel<ScriptTask>>(Channel.CreateUnbounded<ScriptTask>());
 builder.Services.AddSingleton<Channel<ScriptState>>(Channel.CreateUnbounded<ScriptState>());
 builder.Services.AddHostedService<BashScriptBackgroundService>();
+builder.Services.AddSignalR();
 
 builder.Services.AddCors(options =>
 {
@@ -41,5 +42,12 @@ app.UseStaticFiles();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseRouting();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<ScriptStateHub>("/scriptStateHub");
+});
+
 
 app.Run();

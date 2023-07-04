@@ -5,16 +5,34 @@ const app = Vue.createApp({
   template: ` 
   <button @click="runBashScript">Run</button>
   <button @click="getState">Get state</button>
-  <p>{{ state }}</p>
+  <h3>outputs</h3>
+  <p v-for="output in outputs">{{ output }}</p>
+  <h3>state (running: {{ state.running == true ? true : false }}) {{ state.output?.length }}</h3>
+  <p v-for="output in state.output">{{ output }}</p>
   `,
   name: 'App',
-  setup: function () {   
+  setup: function () {
+    const outputs = ref([]);
     const state = ref(""); 
-    async function runBashScript() {
-      const resp = await fetchPost(`api/start`);
-      state.value = await resp.json();
-    }
 
+    const connection = new signalR.HubConnectionBuilder()
+      .withUrl("/scriptStateHub")
+      .build();
+
+    connection.on("outputReceived", (output) => {
+      outputs.value.push(output);
+    });
+
+    connection.start().then(() => {
+      console.log("Connection started");
+    }).catch((error) => {
+      console.error(error);
+    });
+
+    async function runBashScript() {
+      await fetchPost(`api/start`);
+    }
+    
     async function getState() {
       const resp = await fetchGet(`api/state`);
       state.value = await resp.json();
@@ -38,7 +56,7 @@ const app = Vue.createApp({
       return response;
     }
 
-    return { runBashScript, getState, state }
+    return { runBashScript, getState, outputs, state }
   },
 });
 
