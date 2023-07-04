@@ -24,7 +24,7 @@ public class BashScriptBackgroundService : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        var scriptState = new ScriptState { Running = true, Output = new List<string>() };
+        var scriptState = new ScriptState { Running = true, Outputs = new List<Output>() };
         await foreach (var scriptTask in Channel.Reader.ReadAllAsync(stoppingToken))
         {
             using var process = new Process();
@@ -42,8 +42,9 @@ public class BashScriptBackgroundService : BackgroundService
             {
                 if (e.Data != null)
                 {
-                    await HubContext.Clients.All.SendAsync("outputReceived", e.Data);
-                    scriptState.Output.Add(e.Data);
+                    var output = new Output(e.Data);
+                    await HubContext.Clients.All.SendAsync("outputReceived", output);
+                    scriptState.Outputs.Add(output);
                     ScriptStateChannel.Writer.TryWrite(scriptState);
                     Console.WriteLine($"Output: {e.Data}");
                 }
@@ -65,14 +66,4 @@ public class BashScriptBackgroundService : BackgroundService
             await process.WaitForExitAsync(stoppingToken);
         }
     }
-}
-
-public class ScriptTask
-{
-    public string Script => "hello";
-}
-public class ScriptState
-{
-    public bool Running { get; set; }
-    public required List<string> Output { get; set; }
 }

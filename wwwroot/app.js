@@ -6,9 +6,9 @@ const app = Vue.createApp({
   <button @click="runBashScript">Run</button>
   <button @click="getState">Get state</button>
   <h3>outputs</h3>
-  <p v-for="output in outputs">{{ output }}</p>
+  <p v-for="output in outputs">{{ output.text }} - {{ dateTimeFormat(output.timestamp) }}</p>
   <h3>state (running: {{ state.running == true ? true : false }}) {{ state.output?.length }}</h3>
-  <p v-for="output in state.output">{{ output }}</p>
+  <p v-for="output in state.outputs">{{ output.text }} - {{ dateTimeFormat(output.timestamp) }}</p>
   `,
   name: 'App',
   setup: function () {
@@ -56,7 +56,17 @@ const app = Vue.createApp({
       return response;
     }
 
-    return { runBashScript, getState, outputs, state }
+    function dateTimeFormat(value) {
+      let options = {
+        year: 'numeric', month: 'numeric', day: 'numeric',
+        hour: 'numeric', minute: 'numeric', second: 'numeric',
+      };
+  
+      const date = new Date(value);
+      return new Intl.DateTimeFormat('default', options).format(date);
+    }
+
+    return { runBashScript, getState, dateTimeFormat, outputs, state }
   },
 });
 
