@@ -4,16 +4,14 @@ const watch = Vue.watch;
 const app = Vue.createApp({
   template: ` 
   <button @click="runBashScript">Run</button>
-  <button @click="getState">Get state</button>
   <h3>outputs</h3>
-  <p v-for="output in outputs">{{ output.text }} - {{ dateTimeFormat(output.timestamp) }}</p>
-  <h3>state (running: {{ state.running == true ? true : false }}) {{ state.output?.length }}</h3>
-  <p v-for="output in state.outputs">{{ output.text }} - {{ dateTimeFormat(output.timestamp) }}</p>
+  <p v-for="output in outputs">{{ output.text }} - {{ output.timestamp }}</p>
   `,
   name: 'App',
   setup: function () {
     const outputs = ref([]);
-    const state = ref(""); 
+
+    setOutputState();
 
     const connection = new signalR.HubConnectionBuilder()
       .withUrl("/scriptStateHub")
@@ -31,11 +29,12 @@ const app = Vue.createApp({
 
     async function runBashScript() {
       await fetchPost(`api/start`);
+      outputs.value = [];
     }
 
-    async function getState() {
+    async function setOutputState() {
       const resp = await fetchGet(`api/state`);
-      state.value = await resp.json();
+      outputs.value = await resp.json();
     }
 
     async function fetchGet(route) {
@@ -66,7 +65,7 @@ const app = Vue.createApp({
       return new Intl.DateTimeFormat('default', options).format(date);
     }
 
-    return { runBashScript, getState, dateTimeFormat, outputs, state }
+    return { runBashScript, dateTimeFormat, outputs }
   },
 });
 

@@ -25,6 +25,7 @@ public class BashScriptController : ControllerBase
     [Route("start")]
     public IActionResult StartBashScriptBackgroundService()
     {
+        scriptState.Outputs.Clear();
         scriptTaskchannel.Writer.TryWrite(new ScriptTask());
         return Ok();
     }
@@ -33,6 +34,6 @@ public class BashScriptController : ControllerBase
     [Route("state")]
     public IActionResult GetScriptState()
     {
-        return Ok(scriptState);
+        return Ok(scriptState.Outputs);
     }
 }
