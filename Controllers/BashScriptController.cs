@@ -1,40 +1,38 @@
 
+using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Channels;
-using System.Threading.Tasks;
+using BashScriptRunner.HostedServices;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BashScriptRunner.Controllers
+namespace BashScriptRunner.Controllers;
+
+[ApiController]
+[Route("api")]
+public class BashScriptController : ControllerBase
 {
-    [ApiController]
-    [Route("api")]
-    public class BashScriptController : ControllerBase
+    private readonly ScriptState scriptState;
+    private Channel<ScriptTask> scriptTaskchannel { get; }
+
+    public BashScriptController(ScriptState scriptState, Channel<ScriptTask> scriptTaskchannel)
     {
-        private Channel<ScriptTask> Channel { get; }
-        private Channel<ScriptState> ScriptStateChannel { get; set; }
+        this.scriptTaskchannel = scriptTaskchannel;
+        this.scriptState = scriptState;
+    }
 
-        public BashScriptController(Channel<ScriptTask> channel, Channel<ScriptState> scriptStateChannel)
-        {
-            Channel = channel;
-            ScriptStateChannel = scriptStateChannel;
-        }
+    [HttpPost]
+    [Route("start")]
+    public IActionResult StartBashScriptBackgroundService()
+    {
+        scriptTaskchannel.Writer.TryWrite(new ScriptTask());
+        return Ok();
+    }
 
-        [HttpPost("start")]
-        public IActionResult StartBashScriptBackgroundService()
-        {
-            Channel.Writer.TryWrite(new ScriptTask());
-            return Ok();
-        }
-
-        [HttpGet("state")]
-        public IActionResult GetScriptState()
-        {
-            var success = ScriptStateChannel.Reader.TryRead(out var scriptState);
-            if (success) {
-                return Ok(scriptState);
-            } else {
-                return NotFound();
-            }
-        }
+    [HttpGet]
+    [Route("state")]
+    public IActionResult GetScriptState()
+    {
+        return Ok(scriptState);
     }
 }

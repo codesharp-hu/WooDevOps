@@ -1,8 +1,6 @@
 using System.Threading.Channels;
 using BashScriptRunner;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using BashScriptRunner.HostedServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 //builder.Services.AddSingleton<BashScriptBackgroundService>();
 builder.Services.AddSingleton<Channel<ScriptTask>>(Channel.CreateUnbounded<ScriptTask>());
-builder.Services.AddSingleton<Channel<ScriptState>>(Channel.CreateUnbounded<ScriptState>());
+builder.Services.AddSingleton<ScriptState>();
 builder.Services.AddHostedService<BashScriptBackgroundService>();
 builder.Services.AddSignalR();
 

@@ -1,31 +1,24 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading;
 using System.Threading.Channels;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.SignalR;
 
-namespace BashScriptRunner;
+namespace BashScriptRunner.HostedServices;
 public class BashScriptBackgroundService : BackgroundService
 {
+    private Channel<ScriptTask> scriptTaskChannel { get; }
+    public ScriptState scriptState { get; set; }
+    private IHubContext<ScriptStateHub> hubContext { get; }
 
-    private Channel<ScriptTask> Channel { get; }
-    private Channel<ScriptState> ScriptStateChannel { get; set; }
-    private IHubContext<ScriptStateHub> HubContext { get; }
-
-    public BashScriptBackgroundService(Channel<ScriptTask> channel, Channel<ScriptState> scriptStateChannel, IHubContext<ScriptStateHub> hubContext)
+    public BashScriptBackgroundService(Channel<ScriptTask> scriptTaskChannel, ScriptState scriptState, IHubContext<ScriptStateHub> hubContext)
     {
-        Channel = channel;
-        ScriptStateChannel = scriptStateChannel;
-        HubContext = hubContext;
+        this.scriptTaskChannel = scriptTaskChannel;
+        this.scriptState = scriptState;
+        this.hubContext = hubContext;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        var scriptState = new ScriptState { Running = true, Outputs = new List<Output>() };
-        await foreach (var scriptTask in Channel.Reader.ReadAllAsync(stoppingToken))
+        await foreach (var scriptTask in scriptTaskChannel.Reader.ReadAllAsync(stoppingToken))
         {
             using var process = new Process();
             var startInfo = new ProcessStartInfo
@@ -43,10 +36,10 @@ public class BashScriptBackgroundService : BackgroundService
                 if (e.Data != null)
                 {
                     var output = new Output(e.Data);
-                    await HubContext.Clients.All.SendAsync("outputReceived", output);
+                    await hubContext.Clients.All.SendAsync("outputReceived", output);
                     scriptState.Outputs.Add(output);
-                    ScriptStateChannel.Writer.TryWrite(scriptState);
                     Console.WriteLine($"Output: {e.Data}");
+                    Console.WriteLine($"Script state: {scriptState.Outputs.Count}");
                 }
             };
 

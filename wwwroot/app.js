@@ -32,7 +32,7 @@ const app = Vue.createApp({
     async function runBashScript() {
       await fetchPost(`api/start`);
     }
-    
+
     async function getState() {
       const resp = await fetchGet(`api/state`);
       state.value = await resp.json();
