@@ -1,51 +1,16 @@
-using System.Threading.Channels;
-using BashScriptRunner;
-using BashScriptRunner.HostedServices;
+namespace BashScriptRunner;
 
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-//builder.Services.AddSingleton<BashScriptBackgroundService>();
-builder.Services.AddSingleton<Channel<ScriptTask>>(Channel.CreateUnbounded<ScriptTask>());
-builder.Services.AddSingleton<ScriptState>();
-builder.Services.AddHostedService<BashScriptBackgroundService>();
-builder.Services.AddSignalR();
-
-builder.Services.AddCors(options =>
+public class Program
 {
-    options.AddDefaultPolicy(policy  =>
+    public static void Main(string[] args)
     {
-        policy.WithOrigins("http://localhost:8080");
-    });
-});
+        CreateHostBuilder(args).Build().Run();
+    }
 
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    public static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            });
 }
-
-app.UseCors();
-
-app.UseStaticFiles();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.UseRouting();
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapHub<ScriptStateHub>("/scriptStateHub");
-});
-
-
-app.Run();

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public class PipeLineDescriptor
 {
     public string? Name { get; set; }

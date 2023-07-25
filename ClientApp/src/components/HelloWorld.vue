@@ -1,13 +1,19 @@
-const ref = Vue.ref;
-const watch = Vue.watch;
+<template>
+  <div class="hello">
+    <button @click="runBashScript">Run</button>
+    <h3>outputs</h3>
+    <p v-for="output in outputs" :key="output">{{ output.text }} - {{ output.timestamp }}</p>
+  </div>
+</template>
 
-const app = Vue.createApp({
-  template: ` 
-  <button @click="runBashScript">Run</button>
-  <h3>outputs</h3>
-  <p v-for="output in outputs">{{ output.text }} - {{ output.timestamp }}</p>
-  `,
-  name: 'App',
+<script>
+import { ref } from 'vue';
+import * as signalR from '@microsoft/signalr';
+
+export default {
+  name: 'HelloWorld',
+  components: {},
+  props: {},
   setup: function () {
     const outputs = ref([]);
 
@@ -66,7 +72,6 @@ const app = Vue.createApp({
     }
 
     return { runBashScript, dateTimeFormat, outputs }
-  },
-});
-
-app.mount('#app');
+  }
+}
+</script>
