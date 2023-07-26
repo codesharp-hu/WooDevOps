@@ -1,14 +1,14 @@
 <template>
-  <HelloWorld />
+  <ProjectList />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import ProjectList from './components/ProjectList.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    ProjectList
   }
 }
 </script>
@@ -20,6 +20,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin: 20px;
 }
 </style>
