@@ -1,32 +1,20 @@
 <template>
-  <div class="accordion" id="pipeLineAccordion">
-    <div class="accordion-item" v-for="(pipeline, idx) in pipelines" :key="idx">
-      <h2 class="accordion-header" :id="'piple_line_heading'+parentIdx+idx">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" :data-bs-target="'#piple_line_collapse'+parentIdx+idx" aria-expanded="true" :aria-controls="'piple_line_collapse'+parentIdx+idx">
-          {{ pipeline.name }}
-        </button>
-      </h2>
-      <div :id="'piple_line_collapse'+parentIdx+idx" class="accordion-collapse collapse" :aria-labelledby="'piple_line_heading'+parentIdx+idx">
-        <div class="accordion-body">
-          <JobList :parentIdx="parentIdx + '' + idx" :jobs="pipeline.jobs" />
-        </div>
-      </div>
-    </div>
-  </div>
+  <table class="table table-hover table-bordered">
+    <tbody>
+      <tr class="text-start" v-for="(pipeline, idx) in pipelines" :key="idx">
+        <td @click="$emit('selectPipeline', pipeline)">{{ pipeline.name }}</td>
+      </tr>
+    </tbody>
+  </table>
 </template>
 
-<script> 
-import JobList from './JobList.vue';
-
+<script>
 export default {
   name: 'PipeLineList',
-  components: { JobList },
   props: {
-    parentIdx: Number,
     pipelines: Array
   },
   setup: function () {
-
     return {}
   }
 }
