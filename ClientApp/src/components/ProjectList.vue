@@ -1,5 +1,5 @@
 <template>
-  <table class="table table-hover table-bordered">
+  <table class="table table-hover border-start border-end">
     <tbody>
       <tr class="text-start" v-for="(project, idx) in projects" :key="idx">
         <td @click="$emit('selectProject', project)">{{ project.name }}</td>
