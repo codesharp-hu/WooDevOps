@@ -15,12 +15,36 @@ public class ProjectService
                 {
                     new PipelineDescriptor
                     {
-                        Name = "PipelineDescriptor",
+                        Name = "Pipeline 1",
                         Jobs = new List<JobDescriptor>
                         {
                             new JobDescriptor
                             {
-                                Name = "JobDescriptor",
+                                Name = "Job 1",
+                                Parameters = new List<JobParameter>
+                                {
+                                    new JobParameter
+                                    {
+                                        Name = "JobParameter",
+                                        Value = "JobParameterValue"
+                                    }
+                                }
+                            },
+                            new JobDescriptor
+                            {
+                                Name = "Job 2",
+                                Parameters = new List<JobParameter>
+                                {
+                                    new JobParameter
+                                    {
+                                        Name = "JobParameter",
+                                        Value = "JobParameterValue"
+                                    }
+                                }
+                            },
+                            new JobDescriptor
+                            {
+                                Name = "Job 3",
                                 Parameters = new List<JobParameter>
                                 {
                                     new JobParameter
@@ -31,7 +55,149 @@ public class ProjectService
                                 }
                             }
                         },
-                        Runs = new List<PipelineState>()
+                        Runs = new List<PipelineState>{
+                            new PipelineState
+                            {
+                                State = State.Failed,
+                                JobStates = new List<JobState>
+                                {
+                                    new JobState
+                                    {
+                                        State = State.Failed,
+                                        Messages = new List<string>
+                                        {
+                                            "Message 1",
+                                            "Message 2"
+                                        },
+                                        Date = DateTime.Now
+                                    },
+                                    new JobState
+                                    {
+                                        State = State.Failed,
+                                        Messages = new List<string>
+                                        {
+                                            "Message 1",
+                                            "Message 2"
+                                        },
+                                        Date = DateTime.Now
+                                    }
+                                }
+                            },
+                            new PipelineState
+                            {
+                                State = State.Succeeded,
+                                JobStates = new List<JobState>
+                                {
+                                    new JobState
+                                    {
+                                        State = State.Succeeded,
+                                        Messages = new List<string>
+                                        {
+                                            "Message 1",
+                                            "Message 2"
+                                        },
+                                        Date = DateTime.Now
+                                    },
+                                    new JobState
+                                    {
+                                        State = State.Succeeded,
+                                        Messages = new List<string>
+                                        {
+                                            "Message 1",
+                                            "Message 2"
+                                        },
+                                        Date = DateTime.Now
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    new PipelineDescriptor
+                    {
+                        Name = "Pipeline 2",
+                        Jobs = new List<JobDescriptor>
+                        {
+                            new JobDescriptor
+                            {
+                                Name = "Job 1",
+                                Parameters = new List<JobParameter>
+                                {
+                                    new JobParameter
+                                    {
+                                        Name = "JobParameter",
+                                        Value = "JobParameterValue"
+                                    }
+                                }
+                            },
+                            new JobDescriptor
+                            {
+                                Name = "Job 2",
+                                Parameters = new List<JobParameter>
+                                {
+                                    new JobParameter
+                                    {
+                                        Name = "JobParameter",
+                                        Value = "JobParameterValue"
+                                    }
+                                }
+                            }
+                        },
+                        Runs = new List<PipelineState>{
+                            new PipelineState
+                            {
+                                State = State.Failed,
+                                JobStates = new List<JobState>
+                                {
+                                    new JobState
+                                    {
+                                        State = State.Failed,
+                                        Messages = new List<string>
+                                        {
+                                            "Message 1",
+                                            "Message 2"
+                                        },
+                                        Date = DateTime.Now
+                                    },
+                                    new JobState
+                                    {
+                                        State = State.Failed,
+                                        Messages = new List<string>
+                                        {
+                                            "Message 1",
+                                            "Message 2"
+                                        },
+                                        Date = DateTime.Now
+                                    }
+                                }
+                            },
+                            new PipelineState
+                            {
+                                State = State.Succeeded,
+                                JobStates = new List<JobState>
+                                {
+                                    new JobState
+                                    {
+                                        State = State.Succeeded,
+                                        Messages = new List<string>
+                                        {
+                                            "Message 1",
+                                            "Message 2"
+                                        },
+                                        Date = DateTime.Now
+                                    },
+                                    new JobState
+                                    {
+                                        State = State.Succeeded,
+                                        Messages = new List<string>
+                                        {
+                                            "Message 1",
+                                            "Message 2"
+                                        },
+                                        Date = DateTime.Now
+                                    }
+                                }
+                            }
+                        }
                     },
                 }
             }

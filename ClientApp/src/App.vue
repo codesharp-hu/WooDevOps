@@ -1,13 +1,13 @@
 <template>
-  <ul class="nav nav-tabs">
+  <ul class="nav nav-tabs mb-5">
     <li class="nav-item" v-for="(route, idx) in routes" :key="idx">
       <a class="nav-link cursor-pointer" :class="{'active': idx == routes.length-1}" aria-current="page" @click="navigate(idx)">{{ route }}</a>
     </li>
   </ul>
-  <ProjectList v-if="routes.length == 1" :projects="projects" @selectProject="selectProject" />
-  <PipelineList v-if="routes.length == 2" :pipelines="selectedProject.pipelines" @selectPipeline="selectPipeline" />
-  <JobList v-if="routes.length == 3" :jobs="selectedPipeline.jobs" @selectJob="selectJob" />
-  <JobView v-if="routes.length == 4" :job="selectedJob" />
+  <ProjectList v-if="routes.length == 1 && projects.length > 0" :projects="projects" @selectProject="selectProject" />
+  <PipelineList v-if="routes.length == 2" :pipelines="selectedProject.pipelines" @selectJobs="selectJobs" @selectRuns="selectRuns" />
+  <JobList v-if="routes.length == 3 && routes[2].includes('Jobs')" :jobs="selectedPipeline.jobs" />
+  <RunList v-if="routes.length == 3 && routes[2].includes('Runs')" :runs="selectedPipeline.runs" />
 </template>
 
 <script>
@@ -15,18 +15,17 @@ import { ref } from 'vue';
 import ProjectList from './components/ProjectList.vue';
 import PipelineList from './components/PipelineList.vue';
 import JobList from './components/JobList.vue';
-import JobView from './components/JobView.vue';
+import RunList from './components/RunList.vue';
 import { fetchGet } from './web.js';
 
 export default {
   name: 'App',
-  components: { ProjectList, PipelineList, JobList, JobView },
+  components: { ProjectList, PipelineList, JobList, RunList },
   props: {},
   setup: function () {
     const routes = ref(['Projects']);
     const selectedProject = ref(null);
     const selectedPipeline = ref(null);
-    const selectedJob = ref(null);
     const projects = ref([]);
 
     init();
@@ -46,18 +45,18 @@ export default {
       selectedProject.value = project;
       routes.value.push(project.name)
     }
-    function selectPipeline(pipeline) {
+    function selectJobs(pipeline) {
       selectedPipeline.value = pipeline;
-      routes.value.push(pipeline.name)
+      routes.value.push(`${pipeline.name} Jobs`)
     }
-    function selectJob(job) {
-      selectedJob.value = job;
-      routes.value.push(job.name)
+    function selectRuns(pipeline) {
+      selectedPipeline.value = pipeline;
+      routes.value.push(`${pipeline.name} Runs`)
     }
 
     return { 
-      projects, routes, selectedProject, selectedPipeline, selectedJob,
-      navigate, selectProject, selectPipeline, selectJob
+      projects, routes, selectedProject, selectedPipeline,
+      navigate, selectProject, selectJobs, selectRuns
     }
   }
 }
@@ -77,5 +76,8 @@ export default {
 }
 .bi {
   font-size: 1.75rem;
+}
+.card-header {
+  font-weight: bold;
 }
 </style>
