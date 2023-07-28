@@ -1,8 +1,8 @@
-public class PipeLineFactory
+public class PipelineFactory
 {
-    public PipeLine CreatePipLine(PipeLineDescriptor pipeLineDescriptor) {
-        return new PipeLine {
-            Name = pipeLineDescriptor.Name
+    public Pipeline CreatePipline(PipelineDescriptor pipelineDescriptor) {
+        return new Pipeline {
+            Name = pipelineDescriptor.Name
         };
     }
 }

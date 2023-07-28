@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  name: 'PipeLineList',
+  name: 'PipelineList',
   props: {
     pipelines: Array
   },

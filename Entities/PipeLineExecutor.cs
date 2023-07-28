@@ -1,7 +1,7 @@
 using System.Threading.Channels;
 
-public class PipeLineExecutor
+public class PipelineExecutor
 {
-    public Channel<PipeLine>? Channel { get; set; }
+    public Channel<Pipeline>? Channel { get; set; }
     public void ExecuteAsync() {}
 }

@@ -3,6 +3,6 @@ namespace BashScriptRunner.HostedServices;
 public interface IJob
 {
     string Name { get; }
-    PipeLineState State { get; }
+    PipelineState State { get; }
     void Run();
 }

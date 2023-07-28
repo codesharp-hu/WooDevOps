@@ -11,11 +11,11 @@ public class ProjectService
                 Name = "Project 1",
                 Production = new HostingEnvironment(),
                 Staging = new HostingEnvironment(),
-                PipeLines = new List<PipeLineDescriptor>
+                Pipelines = new List<PipelineDescriptor>
                 {
-                    new PipeLineDescriptor
+                    new PipelineDescriptor
                     {
-                        Name = "PipeLineDescriptor",
+                        Name = "PipelineDescriptor",
                         Jobs = new List<JobDescriptor>
                         {
                             new JobDescriptor
@@ -31,7 +31,7 @@ public class ProjectService
                                 }
                             }
                         },
-                        Runs = new List<PipeLineState>()
+                        Runs = new List<PipelineState>()
                     },
                 }
             }

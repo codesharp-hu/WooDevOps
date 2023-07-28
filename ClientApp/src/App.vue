@@ -5,7 +5,7 @@
     </li>
   </ul>
   <ProjectList v-if="routes.length == 1" :projects="projects" @selectProject="selectProject" />
-  <PipeLineList v-if="routes.length == 2" :pipelines="selectedProject.pipelines" @selectPipeline="selectPipeline" />
+  <PipelineList v-if="routes.length == 2" :pipelines="selectedProject.pipelines" @selectPipeline="selectPipeline" />
   <JobList v-if="routes.length == 3" :jobs="selectedPipeline.jobs" @selectJob="selectJob" />
   <JobView v-if="routes.length == 4" :job="selectedJob" />
 </template>
@@ -13,35 +13,31 @@
 <script>
 import { ref } from 'vue';
 import ProjectList from './components/ProjectList.vue';
-import PipeLineList from './components/PipeLineList.vue';
+import PipelineList from './components/PipelineList.vue';
 import JobList from './components/JobList.vue';
 import JobView from './components/JobView.vue';
+import { fetchGet } from './web.js';
 
 export default {
   name: 'App',
-  components: { ProjectList, PipeLineList, JobList, JobView },
+  components: { ProjectList, PipelineList, JobList, JobView },
   props: {},
   setup: function () {
     const routes = ref(['Projects']);
     const selectedProject = ref(null);
     const selectedPipeline = ref(null);
     const selectedJob = ref(null);
+    const projects = ref([]);
 
-    const jobs = ref([
-      {name: 'Job 1', parameters: [{name: 'Param 1', value: 'Value 1'}, {name: 'Param 2', value: 'Value 2'}]},
-      {name: 'Job 2', parameters: []},
-      {name: 'Job 3', parameters: [{name: 'Param 1', value: 'Value 1'}]},
-    ]);
-    const pipelines = ref([
-      {name: 'Pipe Line 1', jobs: jobs},
-      {name: 'Pipe Line 2', jobs: jobs},
-      {name: 'Pipe Line 3', jobs: jobs},
-    ]);
-    const projects = ref([
-      {name: 'Project 1', production: {}, staging: {}, pipelines: pipelines},
-      {name: 'Project 2', production: {}, staging: {}, pipelines: pipelines},
-      {name: 'Project 3', production: {}, staging: {}, pipelines: pipelines},
-    ]);
+    init();
+
+    async function init() {
+      fetchGet('/api/projects').then(resp => {
+        resp.json().then(data => {
+          projects.value = data;
+        });
+      });
+    }
 
     function navigate(idx) {
       routes.value = routes.value.slice(0, idx+1);
