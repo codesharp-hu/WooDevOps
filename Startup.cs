@@ -1,5 +1,6 @@
 using System.Threading.Channels;
 using BashScriptRunner.HostedServices;
+using BashScriptRunner.Service;
 using Microsoft.AspNetCore.HttpOverrides;
 
 namespace BashScriptRunner;
@@ -33,6 +34,7 @@ public class Startup
         services.AddSingleton<Channel<ScriptTask>>(Channel.CreateUnbounded<ScriptTask>());
         services.AddSingleton<ScriptState>();
         services.AddHostedService<BashScriptBackgroundService>();
+        services.AddScoped<ProjectService>();
         services.AddSignalR();
         services.AddSingleton(Configuration);
     }
