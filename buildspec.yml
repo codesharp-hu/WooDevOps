@@ -1,0 +1,15 @@
+version: 0.2
+phases:
+    install:
+        runtime-versions:
+            dotnet: 6.0
+    pre_build:
+        commands:
+            - dotnet restore BashScriptRunner.csproj
+    build:
+        commands:
+            - dotnet publish -c release -o ./build_output BashScriptRunner.csproj
+artifacts:
+    files:
+        - bin/**/*
+        - ClientApp/dist/**/*
