@@ -1,0 +1,10 @@
+#!/bin/bash
+cd /home/ubuntu/
+
+# Use systemd to start and monitor dotnet application
+systemctl enable kestrel-woodevops.service
+systemctl start kestrel-woodevops.service
+
+# Start nginx
+systemctl restart nginx.service
+

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Stop nginx
+systemctl stop nginx.service
+
+# Stop dotnet application
+systemctl stop kestrel-woodevops.service
