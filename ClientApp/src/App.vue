@@ -1,9 +1,9 @@
 <template>
-  <ul class="nav nav-tabs mb-5">
-    <li class="nav-item" v-for="(route, idx) in routes" :key="idx">
-      <a class="nav-link cursor-pointer" :class="{'active': idx == routes.length-1}" aria-current="page" @click="navigate(idx)">{{ route }}</a>
-    </li>
-  </ul>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item cursor-pointer text-primary" :class="{'active text-secondary': idx == routes.length-1}" v-for="(route, idx) in routes" :key="idx"><a @click="navigate(idx)">{{ route }}</a></li>
+    </ol>
+  </nav>
   <ProjectList v-if="routes.length == 1 && projects.length > 0" :projects="projects" @selectProject="selectProject" />
   <PipelineList v-if="routes.length == 2" :pipelines="selectedProject.pipelines" @selectJobs="selectJobs" @selectRuns="selectRuns" />
   <JobList v-if="routes.length == 3 && routes[2].includes('Jobs')" :jobs="selectedPipeline.jobs" />
