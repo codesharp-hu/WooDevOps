@@ -1,4 +1,4 @@
 #!/bin/bash
 
-rm -rf /home/ubuntu/woodevops
+if [ -d "/home/ubuntu/woodevops" ]; then rm -Rf /home/ubuntu/woodevop; fi
 
