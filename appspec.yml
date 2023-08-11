@@ -3,6 +3,10 @@ os: linux
 files:
   - source: bin/release/net6.0/
     destination: /home/ubuntu/woodevops
+  - source: scripts/kestrel-woodevops.service
+    destination: /etc/systemd/system/
+  - source: scripts/nginx
+    destination: /etc/nginx/sites-available/default
 hooks:
   ApplicationStop:
     - location: scripts/stop_service
