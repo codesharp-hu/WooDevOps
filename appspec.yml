@@ -1,8 +1,8 @@
 version: 0.0
 os: linux
 files:
-  - source: AspNetCoreWebApplication/bin/release/netcoreapp3.1/
-    destination: /home/ec2-user/aspnetcoreapp
+  - source: bin/release/net6.0/
+    destination: /home/ubuntu/woodevops
 hooks:
   ApplicationStop:
     - location: scripts/stop_service
