@@ -1,4 +1,4 @@
 #!/bin/bash
 
 if [ -d "/home/ubuntu/woodevops" ]; then rm -Rf /home/ubuntu/woodevop; fi
-
+if [ -f "/etc/nginx/sites-available/default" ]; then rm -rf /etc/nginx/sites-available/default
