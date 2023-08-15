@@ -7,11 +7,11 @@ phases:
     pre_build:
         commands:
             - dotnet restore BashScriptRunner.csproj
-            - cd ClientApp ; npm ci
+            - cd ClientApp ; npm ci ; cd ..
     build:
         commands:
             - dotnet publish -c release -o ./build_output BashScriptRunner.csproj
-            - cd ClientApp ; npm run build
+            - cd ClientApp ; npm run build ; cd ..
 artifacts:
     files:
         - bin/**/*
