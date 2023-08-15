@@ -2,13 +2,16 @@ version: 0.2
 phases:
     install:
         runtime-versions:
-            dotnet: 6.0
+          - dotnet: 6.0
+          - nodejs: 18
     pre_build:
         commands:
             - dotnet restore BashScriptRunner.csproj
+            - cd ClientApp ; npm ci
     build:
         commands:
             - dotnet publish -c release -o ./build_output BashScriptRunner.csproj
+            - cd ClientApp ; npm run build
 artifacts:
     files:
         - bin/**/*
