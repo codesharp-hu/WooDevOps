@@ -32,7 +32,6 @@ public class Startup
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         services.AddSingleton(Channel.CreateUnbounded<JobTask>());
-        services.AddSingleton<ScriptState>();
         services.AddSingleton<PipelineState>();
         services.AddHostedService<JobService>();
         services.AddScoped<ProjectService>();
