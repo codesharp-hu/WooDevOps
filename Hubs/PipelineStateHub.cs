@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.SignalR;
-using System.Threading.Tasks;
 
-public class ScriptStateHub : Hub
+public class PipelineStateHub : Hub
 {
     public async Task SendMessage(string output)
     {

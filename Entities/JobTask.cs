@@ -1,4 +1,4 @@
-public class ScriptTask
+public class JobTask
 {
     public string Script => "hello";
 }

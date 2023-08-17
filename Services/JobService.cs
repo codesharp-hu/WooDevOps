@@ -3,16 +3,16 @@ using System.Threading.Channels;
 using Microsoft.AspNetCore.SignalR;
 
 namespace BashScriptRunner.HostedServices;
-public class BashScriptBackgroundService : BackgroundService
+public class JobService : BackgroundService
 {
-    private Channel<ScriptTask> scriptTaskChannel { get; }
-    public ScriptState scriptState { get; set; }
-    private IHubContext<ScriptStateHub> hubContext { get; }
+    private Channel<JobTask> scriptTaskChannel { get; }
+    public PipelineState pipelineState { get; set; }
+    private IHubContext<PipelineStateHub> hubContext { get; }
 
-    public BashScriptBackgroundService(Channel<ScriptTask> scriptTaskChannel, ScriptState scriptState, IHubContext<ScriptStateHub> hubContext)
+    public JobService(Channel<JobTask> scriptTaskChannel, PipelineState pipelineState, IHubContext<PipelineStateHub> hubContext)
     {
         this.scriptTaskChannel = scriptTaskChannel;
-        this.scriptState = scriptState;
+        this.pipelineState = pipelineState;
         this.hubContext = hubContext;
     }
 
@@ -20,6 +20,11 @@ public class BashScriptBackgroundService : BackgroundService
     {
         await foreach (var scriptTask in scriptTaskChannel.Reader.ReadAllAsync(stoppingToken))
         {
+            var jobState = new JobState
+            {
+                State = State.InProgress
+            };
+            pipelineState.JobStates.Add(jobState);
             using var process = new Process();
             var startInfo = new ProcessStartInfo
             {
@@ -35,11 +40,9 @@ public class BashScriptBackgroundService : BackgroundService
             {
                 if (e.Data != null)
                 {
-                    var output = new Output(e.Data);
-                    await hubContext.Clients.All.SendAsync("outputReceived", output);
-                    scriptState.Outputs.Add(output);
+                    await hubContext.Clients.All.SendAsync("outputReceived", e.Data);
+                    pipelineState.JobStates[pipelineState.JobStates.Count - 1].Messages.Add(e.Data);
                     Console.WriteLine($"Output: {e.Data}");
-                    Console.WriteLine($"Script state: {scriptState.Outputs.Count}");
                 }
             };
 

@@ -31,9 +31,10 @@ public class Startup
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
-        services.AddSingleton<Channel<ScriptTask>>(Channel.CreateUnbounded<ScriptTask>());
+        services.AddSingleton(Channel.CreateUnbounded<JobTask>());
         services.AddSingleton<ScriptState>();
-        services.AddHostedService<BashScriptBackgroundService>();
+        services.AddSingleton<PipelineState>();
+        services.AddHostedService<JobService>();
         services.AddScoped<ProjectService>();
         services.AddSignalR();
         services.AddSingleton(Configuration);

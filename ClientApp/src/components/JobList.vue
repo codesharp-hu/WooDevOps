@@ -9,7 +9,7 @@
       <div :id="'job-collapse'+idx" class="accordion-collapse collapse" :aria-labelledby="'job-heading'+idx">
         <div class="accordion-body">
           <div class="d-flex justify-content-end align-items-center">
-            <span class="bi bi-play-fill cursor-pointer text-success" @click="start"></span>
+            <span class="bi bi-play-fill cursor-pointer text-success" @click="start(job)"></span>
           </div>
           <div class="input-group mt-2" v-for="(param, idx) in job.parameters" :key="idx">
             <span class="input-group-text">{{ param.name }}</span>
@@ -22,13 +22,20 @@
 </template>
 
 <script>  
+import { fetchPost } from '../web.js';
+
 export default {
   name: 'JobList',
   props: {
     jobs: Array
   },
   setup: function () {
-    return {}
+    function start(job) {
+      console.log('job: ', job)
+      fetchPost('/api/jobs/start', { job: job })
+    }
+    
+    return { start }
   }
 }
 </script>
