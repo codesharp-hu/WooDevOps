@@ -21,6 +21,7 @@ public class ProjectService
                             new JobDescriptor
                             {
                                 Name = "Job 1",
+                                Command = "echo \"Hello World 1 \" && sleep 1 && echo \"Hello World 2 $1\" && sleep 1 && echo \"Hello World 3 $1\" && sleep 1 && echo \"Hello World 4\" && sleep 1 && echo \"Hello World 5\"",
                                 Parameters = new List<JobParameter>
                                 {
                                     new JobParameter
@@ -33,6 +34,7 @@ public class ProjectService
                             new JobDescriptor
                             {
                                 Name = "Job 2",
+                                Command = "echo \"Hello World 1 $1\" && sleep 1 && echo \"Hello World 2\" && sleep 1 && echo \"Hello World 3 $1\" && sleep 1 && echo \"Hello World 4\" && sleep 1 && echo \"Hello World 5\"",
                                 Parameters = new List<JobParameter>
                                 {
                                     new JobParameter
@@ -45,6 +47,7 @@ public class ProjectService
                             new JobDescriptor
                             {
                                 Name = "Job 3",
+                                Command = "echo \"Hello World 1 $1\" && sleep 1 && echo \"Hello World 2\" && sleep 1 && echo \"Hello World 3\" && sleep 1 && echo \"Hello World 4 $1\" && sleep 1 && echo \"Hello World 5\"",
                                 Parameters = new List<JobParameter>
                                 {
                                     new JobParameter
@@ -120,6 +123,7 @@ public class ProjectService
                             new JobDescriptor
                             {
                                 Name = "Job 1",
+                                Command = "echo \"Hello World 1 $1\" && sleep 1 && echo \"Hello World 2\" && sleep 1 && echo \"Hello World 3\" && sleep 1 && echo \"Hello World 4 $1\" && sleep 1 && echo \"Hello World 5\"",
                                 Parameters = new List<JobParameter>
                                 {
                                     new JobParameter
@@ -132,6 +136,7 @@ public class ProjectService
                             new JobDescriptor
                             {
                                 Name = "Job 2",
+                                Command = "echo \"Hello World 1 $1\" && sleep 1 && echo \"Hello World 2 $1\" && sleep 1 && echo \"Hello World 3\" && sleep 1 && echo \"Hello World 4\" && sleep 1 && echo \"Hello World 5\"",
                                 Parameters = new List<JobParameter>
                                 {
                                     new JobParameter

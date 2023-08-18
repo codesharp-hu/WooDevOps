@@ -32,7 +32,7 @@ export default {
   setup: function () {
     function start(job) {
       console.log('job: ', job)
-      fetchPost('/api/jobs/start', { job: job })
+      fetchPost('/api/jobs/start', job)
     }
     
     return { start }

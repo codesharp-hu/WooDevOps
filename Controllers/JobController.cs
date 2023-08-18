@@ -1,5 +1,6 @@
 using System.Threading.Channels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace BashScriptRunner.Controllers;
 
@@ -7,27 +8,25 @@ namespace BashScriptRunner.Controllers;
 [Route("api/jobs")]
 public class JobController : ControllerBase
 {
-    private readonly PipelineState pipelineState;
-    private Channel<JobTask> channel { get; }
+    private Channel<JobDescriptor> channel { get; }
 
-    public JobController(PipelineState pipelineState, Channel<JobTask> channel)
+    public JobController(Channel<JobDescriptor> channel)
     {
         this.channel = channel;
-        this.pipelineState = pipelineState;
     }
 
     [HttpPost]
     [Route("start")]
-    public IActionResult StartJob()
+    public async Task<IActionResult> StartJob([FromBody] JobDescriptor jobDescriptor)
     {
-        channel.Writer.TryWrite(new JobTask());
-        return Ok();
-    }
-
-    [HttpGet]
-    [Route("state")]
-    public IActionResult GetPipelineState()
-    {
-        return Ok(pipelineState);
+        try
+        {
+            await channel.Writer.WriteAsync(jobDescriptor);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
     }
 }
