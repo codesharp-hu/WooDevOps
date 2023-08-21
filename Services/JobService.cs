@@ -28,6 +28,18 @@ namespace BashScriptRunner.HostedServices
                 };
                 pipelineState.JobStates.Add(jobState);
 
+                var parameterSubstitutions = new Dictionary<string, string>();
+                foreach (var parameter in jobDescriptor.Parameters)
+                {
+                    parameterSubstitutions[parameter.Name] = parameter.Value;
+                }
+
+                var commandWithSubstitutions = jobDescriptor.Command;
+                foreach (var substitution in parameterSubstitutions)
+                {
+                    commandWithSubstitutions = commandWithSubstitutions.Replace($"${substitution.Key}", substitution.Value);
+                }
+
                 var startInfo = new ProcessStartInfo
                 {
                     FileName = "bash",
@@ -38,7 +50,7 @@ namespace BashScriptRunner.HostedServices
                 };
 
                 startInfo.ArgumentList.Add("-c");
-                startInfo.ArgumentList.Add(jobDescriptor.Command);
+                startInfo.ArgumentList.Add(commandWithSubstitutions);
 
                 using (var process = new Process())
                 {
