@@ -1,6 +1,6 @@
 namespace BashScriptRunner.HostedServices;
 
-public interface IJob
+public interface IJobService
 {
     string Name { get; }
     PipelineState State { get; }

@@ -32,9 +32,11 @@ public class Startup
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         services.AddSingleton(Channel.CreateUnbounded<JobDescriptor>());
+        services.AddSingleton(Channel.CreateUnbounded<Pipeline>());
         services.AddSingleton<PipelineState>();
-        services.AddHostedService<JobService>();
+        services.AddHostedService<PipelineExecutor>();
         services.AddScoped<ProjectService>();
+        services.AddScoped<IJobService, JobService>();
         services.AddSignalR();
         services.AddSingleton(Configuration);
     }
