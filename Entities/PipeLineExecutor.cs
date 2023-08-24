@@ -2,29 +2,24 @@ using System.Threading.Channels;
 
 public class PipelineExecutor : BackgroundService
 {
-    private readonly Channel<Pipeline> _channel = Channel.CreateUnbounded<Pipeline>();
+    private readonly Channel<Pipeline> channel;
 
-    public void EnqueuePipeline(Pipeline pipeline)
+    public PipelineExecutor(Channel<Pipeline> channel)
     {
-        _channel.Writer.TryWrite(pipeline);
+        this.channel = channel;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        await foreach (var pipeline in _channel.Reader.ReadAllAsync(stoppingToken))
+        await foreach (var pipeline in channel.Reader.ReadAllAsync(stoppingToken))
         {
-            Console.WriteLine($"{pipeline.Name} is received.");
-            foreach (var job in pipeline.Jobs)
-            {
-                Console.WriteLine($"{job.Name} is running.");
-                job.Run();
-            }
+            pipeline.Run();
         }
     }
 
     public override async Task StopAsync(CancellationToken cancellationToken)
     {
-        _channel.Writer.Complete();
+        channel.Writer.Complete();
         await base.StopAsync(cancellationToken);
     }
 }

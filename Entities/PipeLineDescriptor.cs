@@ -7,7 +7,7 @@ public class PipelineDescriptor
     private static readonly PipelineFactory _pipelineFactory = new PipelineFactory();
     public void Run() {
         Pipeline pipeline = _pipelineFactory.CreatePipline(this);
-        Console.WriteLine("--------------------");
+        Console.WriteLine("--------------------"); 
         Console.WriteLine($"{pipeline.Name} is started.");
         pipeline.Run();
     }
