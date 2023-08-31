@@ -1,6 +1,7 @@
 using BashScriptRunner.HostedServices;
 public class Pipeline
 {
+    public int Id { get; set; }
     public string? Name { get; set; }
     public List<JobService> Jobs { get; set; } = new List<JobService>();
     public PipelineState State { get; set; } = new PipelineState();

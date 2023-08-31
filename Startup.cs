@@ -2,6 +2,7 @@ using System.Threading.Channels;
 using BashScriptRunner.HostedServices;
 using BashScriptRunner.Service;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.EntityFrameworkCore;
 
 namespace BashScriptRunner;
 
@@ -38,6 +39,7 @@ public class Startup
         services.AddScoped<ProjectService>();
         services.AddScoped<IJobService, JobService>();
         services.AddSignalR();
+        services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PostgreSQL")));
         services.AddSingleton(Configuration);
     }
 
