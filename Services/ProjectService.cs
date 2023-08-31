@@ -19,4 +19,10 @@ public class ProjectService
 
         return projects;
     }
+    public List<PipelineState> GetProjectRuns(int projectId)
+    {
+        var runs = dbContext.PipelineDescriptors.Where(p => p.ProjectId == projectId).SelectMany(p => p.Runs).ToList();
+        runs.ForEach(r => dbContext.Entry(r).Collection(r => r.JobStates).Load());
+        return runs;
+    }
 }

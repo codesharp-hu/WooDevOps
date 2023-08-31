@@ -8,8 +8,8 @@
         <div class="card-body">
           <p class="card-text">Pipelines: {{ project.pipelines.length }}</p>
           <p class="card-text">Jobs: {{ jobLenght }}</p>
-          <p class="card-text">Runs: {{ runsLenght }}</p>
-          <a class="btn btn-primary" @click="$emit('selectProject', project)">Pipelines</a>
+          <a class="btn btn-primary me-2" @click="$emit('selectProject', project)">Pipelines</a>
+          <a class="btn btn-primary" @click="$router.push(`${project.id}/runs`)">Runs</a>
         </div>
       </div>
     </div>
@@ -27,16 +27,14 @@ export default {
   },
   setup(props) {
     const jobLenght = ref(0);
-    const runsLenght = ref(0);
 
     props.projects.forEach(project => {
       project.pipelines.forEach(pipeline => {
         jobLenght.value += pipeline.jobs.length;
-        runsLenght.value += pipeline.runs.length;
       });
     });
     
-    return { jobLenght, runsLenght }
+    return { jobLenght }
   }
 }
 </script>

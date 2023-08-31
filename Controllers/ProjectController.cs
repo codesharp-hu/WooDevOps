@@ -4,7 +4,7 @@ using BashScriptRunner.Service;
 namespace BashScriptRunner.Controllers;
 
 [ApiController]
-[Route("api")]
+[Route("api/projects")]
 public class ProjectController : ControllerBase
 {
     private ProjectService projectService;
@@ -15,10 +15,19 @@ public class ProjectController : ControllerBase
     }
 
     [HttpGet]
-    [Route("projects")]
+    [Route("")]
     public IActionResult ListProjects()
     {
         var projects = projectService.ListProjects();
         return Ok(projects);
+    }
+    
+    [HttpGet]
+    [Route("{projectId}/runs")]
+    public IActionResult GetProjectRuns(int projectId)
+    {
+        Console.WriteLine($"GetProjectRuns: {projectId}");
+        var runs = projectService.GetProjectRuns(projectId);
+        return Ok(runs);
     }
 }

@@ -7,6 +7,11 @@ const routes = [
         path: '/',
         name: 'Home',
         component: HomeView
+    },
+    {
+        path: '/:projectId/runs',
+        name: 'Runs',
+        component: () => import('../views/RunsView.vue')
     }
 ];
 

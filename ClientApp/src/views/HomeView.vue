@@ -2,13 +2,14 @@
   <section>
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item cursor-pointer text-primary" :class="{'active text-secondary': idx == routes.length-1}" v-for="(route, idx) in routes" :key="idx"><a @click="navigate(idx)">{{ route }}</a></li>
+        <li class="breadcrumb-item cursor-pointer text-primary" :class="{'active text-secondary': idx == routes.length-1}" v-for="(route, idx) in routes" :key="idx">
+          <a @click="navigate(idx)">{{ route }}</a>
+        </li>
       </ol>
     </nav>
     <ProjectList v-if="routes.length == 1 && projects.length > 0" :projects="projects" @selectProject="selectProject" />
-    <PipelineList v-if="routes.length == 2" :pipelines="selectedProject.pipelines" @selectJobs="selectJobs" @selectRuns="selectRuns" />
+    <PipelineList v-if="routes.length == 2" :pipelines="selectedProject.pipelines" @selectJobs="selectJobs" />
     <JobList v-if="routes.length == 3 && routes[2].includes('Jobs')" :jobs="selectedPipeline.jobs" />
-    <RunList v-if="routes.length == 3 && routes[2].includes('Runs')" :runs="selectedPipeline.runs" />
   </section>
 </template>
 
@@ -17,12 +18,11 @@ import { ref } from 'vue';
 import ProjectList from '../components/ProjectList.vue';
 import PipelineList from '../components/PipelineList.vue';
 import JobList from '../components/JobList.vue';
-import RunList from '../components/RunList.vue';
 import { fetchGet } from '../web.js';
 
 export default {
   name: 'HomeView',
-  components: { ProjectList, PipelineList, JobList, RunList },
+  components: { ProjectList, PipelineList, JobList },
   props: {},
   setup: function () {
     const routes = ref(['Projects']);
@@ -51,14 +51,10 @@ export default {
       selectedPipeline.value = pipeline;
       routes.value.push(`${pipeline.name} Jobs`)
     }
-    function selectRuns(pipeline) {
-      selectedPipeline.value = pipeline;
-      routes.value.push(`${pipeline.name} Runs`)
-    }
 
     return { 
       projects, routes, selectedProject, selectedPipeline,
-      navigate, selectProject, selectJobs, selectRuns
+      navigate, selectProject, selectJobs
     }
   }
 }

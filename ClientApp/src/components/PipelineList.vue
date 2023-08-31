@@ -7,9 +7,7 @@
         </div>
         <div class="card-body">
           <p class="card-text">Jobs: {{ pipeline.jobs.length }}</p>
-          <p class="card-text">Runs: {{ pipeline.runs.length }}</p>
           <a class="btn btn-primary me-2" @click="$emit('selectJobs', pipeline)">Jobs</a>
-          <a class="btn btn-primary me-2" @click="$emit('selectRuns', pipeline)">Runs</a>
           <a class="btn btn-primary" @click="start(pipeline)">Run</a>
         </div>
       </div>
@@ -22,13 +20,12 @@ import { fetchPost } from '../web.js';
 
 export default {
   name: 'PipelineList',
-  emits: ['selectJobs', 'selectRuns'],
+  emits: ['selectJobs'],
   props: {
     pipelines: Array
   },
   setup: function () {
     function start(pipeline) {
-      console.log('pipeline: ', pipeline);
       fetchPost('/api/pipelines/start', pipeline);
     }
 
