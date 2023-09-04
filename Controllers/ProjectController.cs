@@ -26,8 +26,15 @@ public class ProjectController : ControllerBase
     [Route("{projectId}/runs")]
     public IActionResult GetProjectRuns(int projectId)
     {
-        Console.WriteLine($"GetProjectRuns: {projectId}");
         var runs = projectService.GetProjectRuns(projectId);
         return Ok(runs);
+    }
+
+    [HttpPost]
+    [Route("{projectId}/start")]
+    public IActionResult RunProject(int projectId)
+    {
+        projectService.RunProject(projectId);
+        return Ok();
     }
 }

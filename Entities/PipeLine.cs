@@ -1,17 +1,16 @@
-using BashScriptRunner.HostedServices;
+using BashScriptRunner.Entities;
 public class Pipeline
 {
     public int Id { get; set; }
     public string? Name { get; set; }
-    public List<JobService> Jobs { get; set; } = new List<JobService>();
+    public List<Job> Jobs { get; set; } = new List<Job>();
     public PipelineState State { get; set; } = new PipelineState();
 
     public void Run()
     {
-        Console.WriteLine($"{Name} is received.");
+        Console.WriteLine($"{Name} is received, has {Jobs.Count} job.");
         foreach (var job in Jobs)
         {
-            Console.WriteLine($"{job.Name} is running.");
             job.Run();
         }
     }

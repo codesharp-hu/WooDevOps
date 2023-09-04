@@ -1,13 +1,21 @@
-namespace BashScriptRunner.HostedServices
+namespace BashScriptRunner.Service;
+
+public class JobService
 {
-    public class JobService : IJobService
+    private readonly ApplicationDbContext dbContext;
+
+    public JobService(ApplicationDbContext dbContext)
     {
-        public int Id { get; set; }
-        public string Name { get; set; } = "Job";
-        public PipelineState State { get; set; } = new PipelineState();
-        public void Run()
-        {
-            Console.WriteLine($"Job {Name} is running.");
-        }
+        this.dbContext = dbContext;
+    }
+
+    public PipelineDescriptor? GetPipelineDescriptorById(int id)
+    {
+        return dbContext.PipelineDescriptors.Where(p => p.Id == id).FirstOrDefault();
+    }
+
+    public JobDescriptor? GetJobDescriptorById(int id)
+    {
+        return dbContext.JobDescriptors.Where(j => j.Id == id).FirstOrDefault();
     }
 }

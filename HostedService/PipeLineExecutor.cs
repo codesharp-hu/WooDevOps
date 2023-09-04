@@ -1,5 +1,7 @@
 using System.Threading.Channels;
 
+namespace BashScriptRunner.HostedServices;
+
 public class PipelineExecutor : BackgroundService
 {
     private readonly Channel<Pipeline> channel;
@@ -13,7 +15,9 @@ public class PipelineExecutor : BackgroundService
     {
         await foreach (var pipeline in channel.Reader.ReadAllAsync(stoppingToken))
         {
+            Console.WriteLine($"PipelineExecutor {pipeline.Name} is received.");
             pipeline.Run();
+
         }
     }
 

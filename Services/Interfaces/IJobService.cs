@@ -1,9 +1,9 @@
-namespace BashScriptRunner.HostedServices;
+namespace BashScriptRunner.Entities;
 
 public interface IJobService
 {
-    int Id { get; }
-    string Name { get; }
-    PipelineState State { get; }
+    int Id { get; set; }
+    string? Name { get; set; }
+    PipelineState State { get; set; }
     void Run();
 }

@@ -1,6 +1,7 @@
 using System.Threading.Channels;
-using BashScriptRunner.HostedServices;
+using BashScriptRunner.Entities;
 using BashScriptRunner.Service;
+using BashScriptRunner.HostedServices;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,12 +33,11 @@ public class Startup
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
-        services.AddSingleton(Channel.CreateUnbounded<JobDescriptor>());
         services.AddSingleton(Channel.CreateUnbounded<Pipeline>());
         services.AddSingleton<PipelineState>();
         services.AddHostedService<PipelineExecutor>();
         services.AddScoped<ProjectService>();
-        services.AddScoped<IJobService, JobService>();
+        services.AddScoped<IJobService, Job>();
         services.AddSignalR();
         services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PostgreSQL")));
         services.AddSingleton(Configuration);
