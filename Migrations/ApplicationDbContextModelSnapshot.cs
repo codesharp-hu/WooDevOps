@@ -22,33 +22,6 @@ namespace BashScriptRunner.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("BashScriptRunner.HostedServices.JobService", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int?>("PipelineId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("StateId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PipelineId");
-
-                    b.HasIndex("StateId");
-
-                    b.ToTable("JobService");
-                });
-
             modelBuilder.Entity("HostingEnvironment", b =>
                 {
                     b.Property<int>("Id")
@@ -102,9 +75,6 @@ namespace BashScriptRunner.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Command")
-                        .HasColumnType("text");
-
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -121,16 +91,20 @@ namespace BashScriptRunner.Migrations
                         new
                         {
                             Id = 1,
-                            Command = "echo \"Hello World 1 \" && sleep 1 && echo \"Hello World 2 $JobParameter\" && sleep 1 && echo \"Hello World 3 $JobParameter\" && sleep 1 && echo \"Hello World 4 $JobParameter2\" && sleep 1 && echo \"Hello World 5\"",
                             Name = "Sample Job 1",
                             PipelineDescriptorId = 1
                         },
                         new
                         {
                             Id = 2,
-                            Command = "echo \"Hello World 1 \" && sleep 1 && echo \"Hello World 2 $JobParameter\" && sleep 1 && echo \"Hello World 3 $JobParameter\" && sleep 1 && echo \"Hello World 4 $JobParameter2\" && sleep 1 && echo \"Hello World 5\"",
                             Name = "Sample Job 2",
                             PipelineDescriptorId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Sample Job 3",
+                            PipelineDescriptorId = 1
                         });
                 });
 
@@ -146,9 +120,11 @@ namespace BashScriptRunner.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Value")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -219,7 +195,7 @@ namespace BashScriptRunner.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2023, 8, 31, 12, 21, 46, 754, DateTimeKind.Utc).AddTicks(780),
+                            Date = new DateTime(2023, 9, 5, 11, 14, 6, 371, DateTimeKind.Utc).AddTicks(7760),
                             Messages = new List<string> { "Message 1", "Message 2" },
                             PipelineStateId = 1,
                             State = 3
@@ -227,32 +203,11 @@ namespace BashScriptRunner.Migrations
                         new
                         {
                             Id = 2,
-                            Date = new DateTime(2023, 8, 31, 12, 21, 46, 754, DateTimeKind.Utc).AddTicks(790),
+                            Date = new DateTime(2023, 9, 5, 11, 14, 6, 371, DateTimeKind.Utc).AddTicks(7770),
                             Messages = new List<string> { "Message 1", "Message 2" },
                             PipelineStateId = 1,
                             State = 2
                         });
-                });
-
-            modelBuilder.Entity("Pipeline", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.Property<int>("StateId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StateId");
-
-                    b.ToTable("Pipelines");
                 });
 
             modelBuilder.Entity("PipelineDescriptor", b =>
@@ -317,14 +272,14 @@ namespace BashScriptRunner.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2023, 8, 31, 12, 21, 46, 754, DateTimeKind.Utc).AddTicks(770),
+                            Date = new DateTime(2023, 9, 5, 11, 14, 6, 371, DateTimeKind.Utc).AddTicks(7750),
                             PipelineDescriptorId = 1,
                             State = 3
                         },
                         new
                         {
                             Id = 2,
-                            Date = new DateTime(2023, 8, 31, 12, 21, 46, 754, DateTimeKind.Utc).AddTicks(780),
+                            Date = new DateTime(2023, 9, 5, 11, 14, 6, 371, DateTimeKind.Utc).AddTicks(7750),
                             PipelineDescriptorId = 2,
                             State = 2
                         });
@@ -368,21 +323,6 @@ namespace BashScriptRunner.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BashScriptRunner.HostedServices.JobService", b =>
-                {
-                    b.HasOne("Pipeline", null)
-                        .WithMany("Jobs")
-                        .HasForeignKey("PipelineId");
-
-                    b.HasOne("PipelineState", "State")
-                        .WithMany()
-                        .HasForeignKey("StateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("State");
-                });
-
             modelBuilder.Entity("JobDescriptor", b =>
                 {
                     b.HasOne("PipelineDescriptor", null)
@@ -410,17 +350,6 @@ namespace BashScriptRunner.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Pipeline", b =>
-                {
-                    b.HasOne("PipelineState", "State")
-                        .WithMany()
-                        .HasForeignKey("StateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("State");
-                });
-
             modelBuilder.Entity("PipelineDescriptor", b =>
                 {
                     b.HasOne("Project", null)
@@ -442,11 +371,6 @@ namespace BashScriptRunner.Migrations
             modelBuilder.Entity("JobDescriptor", b =>
                 {
                     b.Navigation("Parameters");
-                });
-
-            modelBuilder.Entity("Pipeline", b =>
-                {
-                    b.Navigation("Jobs");
                 });
 
             modelBuilder.Entity("PipelineDescriptor", b =>

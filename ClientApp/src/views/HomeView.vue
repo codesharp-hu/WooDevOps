@@ -7,7 +7,7 @@
         </li>
       </ol>
     </nav>
-    <ProjectList v-if="routes.length == 1 && projects.length > 0" :projects="projects" @selectProject="selectProject" @run="runProject" />
+    <ProjectList v-if="routes.length == 1 && projects.length > 0" :projects="projects" @selectProject="selectProject" />
     <PipelineList v-if="routes.length == 2" :pipelines="selectedProject.pipelines" @selectJobs="selectJobs" />
     <JobList v-if="routes.length == 3 && routes[2].includes('Jobs')" :jobs="selectedPipeline.jobs" />
   </section>
@@ -17,9 +17,8 @@
 import { ref } from 'vue';
 import ProjectList from '../components/ProjectList.vue';
 import PipelineList from '../components/PipelineList.vue';
-import router from '@/router';
 import JobList from '../components/JobList.vue';
-import { fetchGet, fetchPost } from '../web.js';
+import { fetchGet } from '../web.js';
 
 export default {
   name: 'HomeView',
@@ -52,13 +51,9 @@ export default {
       selectedPipeline.value = pipeline;
       routes.value.push(`${pipeline.name} Jobs`)
     }
-    function runProject(project) {
-      fetchPost(`/api/projects/${project.id}/start`);
-      router.push(`${project.id}/runs`);
-    }
 
     return { 
-      projects, routes, selectedProject, selectedPipeline, runProject,
+      projects, routes, selectedProject, selectedPipeline,
       navigate, selectProject, selectJobs
     }
   }

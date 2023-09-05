@@ -29,12 +29,4 @@ public class ProjectController : ControllerBase
         var runs = projectService.GetProjectRuns(projectId);
         return Ok(runs);
     }
-
-    [HttpPost]
-    [Route("{projectId}/start")]
-    public IActionResult RunProject(int projectId)
-    {
-        projectService.RunProject(projectId);
-        return Ok();
-    }
 }

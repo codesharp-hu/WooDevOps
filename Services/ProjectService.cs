@@ -31,22 +31,4 @@ public class ProjectService
         runs.ForEach(r => dbContext.Entry(r).Collection(r => r.JobStates).Load());
         return runs;
     }
-    public void RunProject(int projectId)
-    {
-        var pipelineDescriptors = dbContext.PipelineDescriptors.Where(p => p.ProjectId == projectId).ToList();
-        pipelineDescriptors.ForEach(p => dbContext.Entry(p).Collection(p => p.Jobs).Load());
-        pipelineDescriptors.ForEach(p => p.Jobs.ForEach(j => dbContext.Entry(j).Collection(j => j.Parameters).Load()));
-        pipelineDescriptors.ForEach(p => dbContext.Entry(p).Collection(p => p.Runs).Load());
-        pipelineDescriptors.ForEach(p => p.Runs.ForEach(r => dbContext.Entry(r).Collection(r => r.JobStates).Load()));
-
-        foreach (var pipelineDescriptor in pipelineDescriptors)
-        {
-            Console.WriteLine($"{pipelineDescriptor.Name} is started. Has {pipelineDescriptor.Jobs.Count} jobs.");
-            var pipeline = pipelineFactory.CreatePipline(pipelineDescriptor);
-            if(pipeline == null) continue;
-            channel.Writer.TryWrite(pipeline);
-        }
-        
-        dbContext.SaveChanges();
-    }
 }

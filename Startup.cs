@@ -1,5 +1,4 @@
 using System.Threading.Channels;
-using BashScriptRunner.Entities;
 using BashScriptRunner.Service;
 using BashScriptRunner.HostedServices;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -37,7 +36,7 @@ public class Startup
         services.AddSingleton<PipelineState>();
         services.AddHostedService<PipelineExecutor>();
         services.AddScoped<ProjectService>();
-        services.AddScoped<IJobService, Job>();
+        services.AddScoped<PipelineService>();
         services.AddSignalR();
         services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PostgreSQL")));
         services.AddSingleton(Configuration);

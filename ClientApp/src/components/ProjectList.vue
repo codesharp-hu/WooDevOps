@@ -10,7 +10,6 @@
           <p class="card-text">Jobs: {{ jobLenght }}</p>
           <a class="btn btn-primary me-2" @click="$emit('selectProject', project)">Pipelines</a>
           <a class="btn btn-primary me-2" @click="$router.push(`${project.id}/runs`)">Runs</a>
-          <a class="btn btn-primary" @click="$emit('run', project)">Run</a>
         </div>
       </div>
     </div>
@@ -22,7 +21,7 @@ import { ref } from 'vue';
 
 export default {
   name: 'ProjectList',
-  emits: ['selectProject', 'run'],
+  emits: ['selectProject'],
   props: {
     projects: Array
   },

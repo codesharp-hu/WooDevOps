@@ -8,7 +8,6 @@ public class PipelineFactory
             Id = pipelineDescriptor.Id,
             Name = pipelineDescriptor.Name,
             Jobs = pipelineDescriptor.Jobs.Select(jobDescriptor => new Job {
-                Id = jobDescriptor.Id,
                 Name = jobDescriptor.Name,
                 State = new PipelineState()
             }).ToList(),

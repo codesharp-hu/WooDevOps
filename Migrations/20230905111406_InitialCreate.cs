@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BashScriptRunner.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -71,8 +71,7 @@ namespace BashScriptRunner.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     PipelineDescriptorId = table.Column<int>(type: "integer", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    Command = table.Column<string>(type: "text", nullable: true)
+                    Name = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -113,8 +112,8 @@ namespace BashScriptRunner.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     JobDescriptorId = table.Column<int>(type: "integer", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    Value = table.Column<string>(type: "text", nullable: true)
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Value = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -149,52 +148,6 @@ namespace BashScriptRunner.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Pipelines",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    StateId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Pipelines", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Pipelines_PipelineStates_StateId",
-                        column: x => x.StateId,
-                        principalTable: "PipelineStates",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "JobService",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    StateId = table.Column<int>(type: "integer", nullable: false),
-                    PipelineId = table.Column<int>(type: "integer", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_JobService", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_JobService_PipelineStates_StateId",
-                        column: x => x.StateId,
-                        principalTable: "PipelineStates",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_JobService_Pipelines_PipelineId",
-                        column: x => x.PipelineId,
-                        principalTable: "Pipelines",
-                        principalColumn: "Id");
-                });
-
             migrationBuilder.InsertData(
                 table: "HostingEnvironments",
                 columns: new[] { "Id", "ApiEndpoint", "SshEndpoint" },
@@ -226,11 +179,12 @@ namespace BashScriptRunner.Migrations
 
             migrationBuilder.InsertData(
                 table: "JobDescriptors",
-                columns: new[] { "Id", "Command", "Name", "PipelineDescriptorId" },
+                columns: new[] { "Id", "Name", "PipelineDescriptorId" },
                 values: new object[,]
                 {
-                    { 1, "echo \"Hello World 1 \" && sleep 1 && echo \"Hello World 2 $JobParameter\" && sleep 1 && echo \"Hello World 3 $JobParameter\" && sleep 1 && echo \"Hello World 4 $JobParameter2\" && sleep 1 && echo \"Hello World 5\"", "Sample Job 1", 1 },
-                    { 2, "echo \"Hello World 1 \" && sleep 1 && echo \"Hello World 2 $JobParameter\" && sleep 1 && echo \"Hello World 3 $JobParameter\" && sleep 1 && echo \"Hello World 4 $JobParameter2\" && sleep 1 && echo \"Hello World 5\"", "Sample Job 2", 2 }
+                    { 1, "Sample Job 1", 1 },
+                    { 2, "Sample Job 2", 2 },
+                    { 3, "Sample Job 3", 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -238,8 +192,8 @@ namespace BashScriptRunner.Migrations
                 columns: new[] { "Id", "Date", "PipelineDescriptorId", "State" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 8, 31, 12, 21, 46, 754, DateTimeKind.Utc).AddTicks(770), 1, 3 },
-                    { 2, new DateTime(2023, 8, 31, 12, 21, 46, 754, DateTimeKind.Utc).AddTicks(780), 2, 2 }
+                    { 1, new DateTime(2023, 9, 5, 11, 14, 6, 371, DateTimeKind.Utc).AddTicks(7750), 1, 3 },
+                    { 2, new DateTime(2023, 9, 5, 11, 14, 6, 371, DateTimeKind.Utc).AddTicks(7750), 2, 2 }
                 });
 
             migrationBuilder.InsertData(
@@ -258,8 +212,8 @@ namespace BashScriptRunner.Migrations
                 columns: new[] { "Id", "Date", "Messages", "PipelineStateId", "State" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 8, 31, 12, 21, 46, 754, DateTimeKind.Utc).AddTicks(780), new List<string> { "Message 1", "Message 2" }, 1, 3 },
-                    { 2, new DateTime(2023, 8, 31, 12, 21, 46, 754, DateTimeKind.Utc).AddTicks(790), new List<string> { "Message 1", "Message 2" }, 1, 2 }
+                    { 1, new DateTime(2023, 9, 5, 11, 14, 6, 371, DateTimeKind.Utc).AddTicks(7760), new List<string> { "Message 1", "Message 2" }, 1, 3 },
+                    { 2, new DateTime(2023, 9, 5, 11, 14, 6, 371, DateTimeKind.Utc).AddTicks(7770), new List<string> { "Message 1", "Message 2" }, 1, 2 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -273,16 +227,6 @@ namespace BashScriptRunner.Migrations
                 column: "JobDescriptorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_JobService_PipelineId",
-                table: "JobService",
-                column: "PipelineId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_JobService_StateId",
-                table: "JobService",
-                column: "StateId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_JobStates_PipelineStateId",
                 table: "JobStates",
                 column: "PipelineStateId");
@@ -291,11 +235,6 @@ namespace BashScriptRunner.Migrations
                 name: "IX_PipelineDescriptors_ProjectId",
                 table: "PipelineDescriptors",
                 column: "ProjectId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Pipelines_StateId",
-                table: "Pipelines",
-                column: "StateId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PipelineStates_PipelineDescriptorId",
@@ -313,16 +252,10 @@ namespace BashScriptRunner.Migrations
                 name: "JobParameters");
 
             migrationBuilder.DropTable(
-                name: "JobService");
-
-            migrationBuilder.DropTable(
                 name: "JobStates");
 
             migrationBuilder.DropTable(
                 name: "JobDescriptors");
-
-            migrationBuilder.DropTable(
-                name: "Pipelines");
 
             migrationBuilder.DropTable(
                 name: "PipelineStates");

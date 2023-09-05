@@ -1,4 +1,5 @@
 using System.Threading.Channels;
+using BashScriptRunner.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BashScriptRunner.Controllers;
@@ -8,30 +9,19 @@ namespace BashScriptRunner.Controllers;
 public class PipelineController : ControllerBase
 {
     private readonly Channel<Pipeline> channel;
+    private PipelineService pipelineService;
 
-    public PipelineController(Channel<Pipeline> channel)
+    public PipelineController(Channel<Pipeline> channel, PipelineService pipelineService)
     {
         this.channel = channel;
+        this.pipelineService = pipelineService;
     }
 
     [HttpPost]
-    [Route("start")]
-    public IActionResult Start([FromBody] PipelineDescriptor pipelineDescriptor)
+    [Route("{pipelineId}/start")]
+    public IActionResult RunPipeline(int pipelineId)
     {
-        try
-        {
-            // TODO: pipeline-t létrehozni
-            var pipeline = new Pipeline
-            {
-                Name = pipelineDescriptor.Name
-            };
-            channel.Writer.TryWrite(pipeline);
-            return Ok();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-            return StatusCode(500, ex.Message);
-        }
+        pipelineService.RunPipeline(pipelineId);
+        return Ok();
     }
 }

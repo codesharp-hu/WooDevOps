@@ -26,7 +26,7 @@ export default {
   },
   setup: function () {
     function start(pipeline) {
-      fetchPost('/api/pipelines/start', pipeline);
+      fetchPost(`/api/pipelines/${pipeline.id}/start`);
     }
 
     return { start }

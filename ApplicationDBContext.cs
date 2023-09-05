@@ -5,7 +5,6 @@ public class ApplicationDbContext : DbContext
 {
     public DbSet<Project> Projects { get; set; } = null!;
     public DbSet<HostingEnvironment> HostingEnvironments { get; set; } = null!;
-    public DbSet<Pipeline> Pipelines { get; set; } = null!;
     public DbSet<PipelineState> PipelineStates { get; set; } = null!;
     public DbSet<PipelineDescriptor> PipelineDescriptors { get; set; } = null!;
     public DbSet<JobState> JobStates { get; set; } = null!;
@@ -54,14 +53,18 @@ public class ApplicationDbContext : DbContext
                 Id = 1,
                 PipelineDescriptorId = 1,
                 Name = "Sample Job 1",
-                Command = "echo \"Hello World 1 \" && sleep 1 && echo \"Hello World 2 $JobParameter\" && sleep 1 && echo \"Hello World 3 $JobParameter\" && sleep 1 && echo \"Hello World 4 $JobParameter2\" && sleep 1 && echo \"Hello World 5\"",
             },
             new JobDescriptor
             {
                 Id = 2,
                 PipelineDescriptorId = 2,
                 Name = "Sample Job 2",
-                Command = "echo \"Hello World 1 \" && sleep 1 && echo \"Hello World 2 $JobParameter\" && sleep 1 && echo \"Hello World 3 $JobParameter\" && sleep 1 && echo \"Hello World 4 $JobParameter2\" && sleep 1 && echo \"Hello World 5\"",
+            },
+            new JobDescriptor
+            {
+                Id = 3,
+                PipelineDescriptorId = 1,
+                Name = "Sample Job 3",
             }
         );
         modelBuilder.Entity<JobParameter>().HasData(
