@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+mysqldump  --max-allowed-packet=1024M  --single-transaction --use myuser --password=secret mydatabase wp_posts  wp_postmeta  wp_woocommerce_order_items wp_woocommerce_order_itemmeta wp_wc_customer_lookup > dump.sql
