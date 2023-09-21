@@ -1,8 +1,8 @@
 using System.Threading.Channels;
-using BashScriptRunner.Service;
+using WooDevOps.Web.Service;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BashScriptRunner.Controllers;
+namespace WooDevOps.Web.Controllers;
 
 [ApiController]
 [Route("api/pipelines")]

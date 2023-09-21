@@ -6,11 +6,11 @@ phases:
           nodejs: 18
     pre_build:
         commands:
-            - dotnet restore BashScriptRunner.csproj
+            - dotnet restore WooDevOps.csproj
             - cd ClientApp ; npm ci ; cd ..
     build:
         commands:
-            - dotnet publish -c release -o ./build_output BashScriptRunner.csproj
+            - dotnet publish -c release -o ./build_output WooDevOps.csproj
             - cd ClientApp ; npm run build ; cd ..
 artifacts:
     files:

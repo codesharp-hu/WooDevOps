@@ -1,6 +1,6 @@
 using System.Threading.Channels;
 
-namespace BashScriptRunner.Service;
+namespace WooDevOps.Web.Service;
 
 public class ProjectService
 {

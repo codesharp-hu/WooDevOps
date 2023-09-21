@@ -1,5 +1,5 @@
 
-using BashScriptRunner.Entities;
+using WooDevOps.Web.Entities;
 
 public class PipelineFactory
 {

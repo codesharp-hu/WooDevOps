@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg bg-white start-0 end-0 row">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/">BashScriptRunner</a>
+      <a class="navbar-brand" href="/">WooDevOps</a>
       <div class="navbar-expand " id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">

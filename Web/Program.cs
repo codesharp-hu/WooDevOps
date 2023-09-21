@@ -1,4 +1,4 @@
-namespace BashScriptRunner;
+namespace WooDevOps.Web;
 
 public class Program
 {

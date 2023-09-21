@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace BashScriptRunner.Entities;
+namespace WooDevOps.Web.Entities;
 
     public class Job
     {

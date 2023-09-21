@@ -1,6 +1,6 @@
 using System.Threading.Channels;
 
-namespace BashScriptRunner.HostedServices;
+namespace WooDevOps.Web.HostedServices;
 
 public class PipelineExecutor : BackgroundService
 {

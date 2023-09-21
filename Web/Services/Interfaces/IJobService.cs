@@ -1,4 +1,4 @@
-namespace BashScriptRunner.Services;
+namespace WooDevOps.Web.Services;
 
 public interface IJobService
 {

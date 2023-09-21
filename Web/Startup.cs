@@ -1,10 +1,10 @@
 using System.Threading.Channels;
-using BashScriptRunner.Service;
-using BashScriptRunner.HostedServices;
+using WooDevOps.Web.Service;
+using WooDevOps.Web.HostedServices;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 
-namespace BashScriptRunner;
+namespace WooDevOps.Web;
 
 public class Startup
 {

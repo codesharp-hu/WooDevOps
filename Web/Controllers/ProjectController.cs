@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using BashScriptRunner.Service;
+using WooDevOps.Web.Service;
 
-namespace BashScriptRunner.Controllers;
+namespace WooDevOps.Web.Controllers;
 
 [ApiController]
 [Route("api/projects")]

@@ -3,7 +3,7 @@ Description=WooDevOps service
 
 [Service]
 WorkingDirectory=/home/ubuntu/woodevops/
-ExecStart=dotnet BashScriptRunner.dll
+ExecStart=dotnet WooDevOps.dll
 Restart=always
 # Restart service after 10 seconds if dotnet service crashes
 RestartSec=10

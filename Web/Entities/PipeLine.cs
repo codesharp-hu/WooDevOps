@@ -1,4 +1,4 @@
-using BashScriptRunner.Entities;
+using WooDevOps.Web.Entities;
 public class Pipeline
 {
     public int Id { get; set; }
